@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><link rel="icon" type="image/svg+xml" href="icons/matrix.svg">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DESARROLLO</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+  width:100%;height:100%;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#000;
+  color:#0f0;
+  overflow:hidden;
+}
+
+/* ===== FONDO ===== */
+.bg{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#000 50%,#0a1a0a 50%);
+}
+
+/* ===== VISTAS ===== */
+.view{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:opacity 1s ease;
+}
+.hidden{opacity:0;pointer-events:none}
+
+/* ===== PORTADA ===== */
+.hero h1{
+  font-size:clamp(44px,9vw,80px);
+  font-weight:900;
+  letter-spacing:6px;
+  text-shadow:0 0 15px #0f0,0 0 40px #0f0;
+}
+
+/* ===== SECCIÓN ===== */
+.section{
+  flex-direction:column;
+  padding:20px;
+}
+
+/* TÍTULO */
+.title{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:clamp(36px,8vw,64px);
+  font-weight:900;
+  margin-bottom:20px;
+}
+
+/* Yin Yang */
+.yin-o{
+  width:1em;height:1em;
+  animation:spin 16s linear infinite reverse;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== GUÍA ===== */
+.assistant{
+  width:100%;
+  max-width:560px;
+  background:rgba(0,0,0,.8);
+  border:1px solid #0f0;
+  border-radius:14px;
+  padding:22px;
+  box-shadow:0 0 25px rgba(0,255,0,.25);
+}
+
+.question{font-size:18px;margin-bottom:14px}
+.options{display:flex;flex-wrap:wrap;gap:10px}
+
+.options button{
+  flex:1 1 45%;
+  padding:12px;
+  background:#000;
+  border:1px solid #0f0;
+  color:#0f0;
+  border-radius:8px;
+  cursor:pointer;
+}
+.options button.active{
+  background:#0f0;
+  color:#000;
+}
+
+textarea{
+  width:100%;
+  margin-top:12px;
+  background:#000;
+  border:1px solid #0f0;
+  color:#0f0;
+  padding:10px;
+  border-radius:6px;
+}
+
+.nav{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+.nav button{
+  flex:1;
+  padding:12px;
+  background:#001a00;
+  border:1px solid #0f0;
+  color:#0f0;
+  border-radius:8px;
+}
+
+.error{
+  margin-top:8px;
+  font-size:14px;
+  color:#6f6;
+}
+
+/* ===== CONFIANZA ===== */
+.trust{
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:40px;
+}
+
+.matrix{
+  position:absolute;
+  inset:0;
+  opacity:.25;
+  overflow:hidden;
+}
+.matrix span{
+  position:absolute;
+  top:-100%;
+  font-size:14px;
+  color:#0f0;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  to{transform:translateY(120vh)}
+}
+
+.trust h2{
+  font-size:clamp(32px,6vw,48px);
+  margin-bottom:20px;
+  z-index:2;
+}
+.trust p{
+  font-size:clamp(18px,4.5vw,26px);
+  max-width:720px;
+  line-height:1.6;
+  z-index:2;
+}
+
+/* ===== FINAL ===== */
+.final{
+  flex-direction:column;
+  text-align:center;
+  padding:30px;
+}
+
+.final pre{
+  margin:20px 0;
+  background:#000;
+  border:1px solid #0f0;
+  padding:16px;
+  border-radius:10px;
+  max-width:600px;
+  width:100%;
+  white-space:pre-wrap;
+  text-align:left;
+}
+
+/* BLOQUE COMERCIAL */
+.commercial{
+  margin-bottom:20px;
+  padding:18px;
+  border:1px solid #0f0;
+  border-radius:10px;
+  background:#000;
+  text-align:center;
+}
+
+.final button{
+  padding:16px 26px;
+  background:#0f0;
+  color:#000;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<!-- PORTADA -->
+<div class="view hero" id="hero">
+  <h1>DESARROLLO</h1>
+</div>
+
+<!-- SECCIÓN -->
+<div class="view section hidden" id="section">
+  <div class="title">
+    DESARR
+    <div class="yin-o">
+      <svg viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="98" fill="#000"/>
+        <path d="M100,2 A98,98 0 1,1 100,198
+                 A49,49 0 1,0 100,100
+                 A49,49 0 1,1 100,2" fill="#0f0"/>
+        <circle cx="100" cy="50" r="12" fill="#000"/>
+        <circle cx="100" cy="150" r="12" fill="#0f0"/>
+      </svg>
+    </div>
+    LLO
+  </div>
+
+  <div class="assistant">
+    <div class="question" id="q"></div>
+    <div class="options" id="opts"></div>
+    <div id="extra"></div>
+    <div class="error" id="error"></div>
+
+    <div class="nav">
+      <button onclick="prev()">Atrás</button>
+      <button onclick="next()">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIANZA -->
+<div class="view trust hidden" id="trust">
+  <div class="matrix" id="matrix"></div>
+  <h2>Esto no es automático</h2>
+  <p>
+    Yo mismo leeré tu idea y desarrollaré tu proyecto.<br><br>
+    No necesitas saber programar.<br><br>
+    Toca la pantalla para continuar.
+  </p>
+</div>
+
+<!-- FINAL -->
+<div class="view final hidden" id="final">
+  <div class="commercial">
+    Cada proyecto es único.<br>
+    Analizamos tu idea y definimos el alcance y el costo.<br>
+  </div>
+
+  <pre id="summary"></pre>
+
+  <button onclick="sendWhats()">Mandar lista por WhatsApp</button>
+</div>
+
+<script>
+/* MATRIX */
+const matrix=document.getElementById("matrix");
+for(let i=0;i<60;i++){
+  const s=document.createElement("span");
+  s.textContent=Math.random().toString(36).slice(2,7);
+  s.style.left=Math.random()*100+"%";
+  s.style.animationDuration=3+Math.random()*6+"s";
+  s.style.animationDelay=Math.random()*5+"s";
+  matrix.appendChild(s);
+}
+
+/* GUÍA */
+const steps=[
+ {q:"¿Qué colores quieres?",o:["Negro","Verde","Rojo","Azul","Violeta"],multi:true},
+ {q:"¿Cómo mezclarlos?",o:["Gradiente","Contraste","Acentos"],multi:false},
+ {q:"Estilo principal",o:["Minimalista","Futurista","Creativo"],multi:false},
+ {q:"¿Tienes referencia?",o:["Escribir referencia","No tengo"],multi:false,ref:true}
+];
+
+let step=0;
+let answers=steps.map(()=>[]);
+let refText="";
+
+const q=document.getElementById("q");
+const opts=document.getElementById("opts");
+const extra=document.getElementById("extra");
+const error=document.getElementById("error");
+
+function render(){
+  const s=steps[step];
+  q.textContent=s.q;
+  opts.innerHTML="";extra.innerHTML="";error.textContent="";
+  s.o.forEach(op=>{
+    const b=document.createElement("button");
+    b.textContent=op;
+    if(answers[step].includes(op)) b.classList.add("active");
+    b.onclick=()=>{
+      answers[step]=s.multi
+        ? answers[step].includes(op)
+          ? answers[step].filter(x=>x!==op)
+          : [...answers[step],op]
+        : [op];
+      render();
+    };
+    opts.appendChild(b);
+  });
+  if(s.ref && answers[step][0]==="Escribir referencia"){
+    extra.innerHTML=`<textarea placeholder="Describe la referencia..." oninput="refText=this.value"></textarea>`;
+  }
+}
+
+function next(){
+  if(answers[step].length===0){
+    error.textContent="Selecciona una opción";
+    return;
+  }
+  if(step<steps.length-1){step++;render();}
+  else showTrust();
+}
+function prev(){if(step>0){step--;render();}}
+
+function showTrust(){
+  section.classList.add("hidden");
+  setTimeout(()=>{
+    trust.classList.remove("hidden");
+    trust.addEventListener("click",fromTrust,{once:true});
+    trust.addEventListener("touchstart",fromTrust,{once:true});
+  },600);
+}
+function fromTrust(){
+  trust.classList.add("hidden");
+  setTimeout(showFinal,600);
+}
+function showFinal(){
+  final.classList.remove("hidden");
+  let txt="";
+  steps.forEach((s,i)=>{
+    txt+=s.q+"\n- "+answers[i].join(", ")+"\n";
+    if(s.ref && refText) txt+="Referencia: "+refText+"\n";
+    txt+="\n";
+  });
+  summary.textContent=txt;
+}
+function sendWhats(){
+  const msg=encodeURIComponent(summary.textContent);
+  window.open("https://wa.me/5350329400?text="+msg,"_blank");
+}
+
+/* INICIO */
+setTimeout(()=>{
+  hero.classList.add("hidden");
+  setTimeout(()=>section.classList.remove("hidden"),1000);
+  render();
+},3000);
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
+    
+</body>
+</html>
