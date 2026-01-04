@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" fill="black"/>
+  <rect width="512" height="512" fill="#000"/>
 
   <defs>
-    <pattern id="matrix" width="40" height="40" patternUnits="userSpaceOnUse">
-      <text x="8" y="28" font-size="26" font-family="monospace" fill="#00ff55">0</text>
-      <text x="22" y="16" font-size="20" font-family="monospace" fill="#00cc44">1</text>
+    <pattern id="matrix" width="22" height="22" patternUnits="userSpaceOnUse">
+      <text x="2" y="18" font-size="18" font-family="monospace" fill="#00ff66">0</text>
+      <text x="10" y="10" font-size="14" font-family="monospace" fill="#00cc55">1</text>
     </pattern>
   </defs>
 
